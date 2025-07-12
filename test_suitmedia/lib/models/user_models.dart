@@ -1,4 +1,3 @@
-// Model untuk User
 class User {
   final int id;
   final String email;

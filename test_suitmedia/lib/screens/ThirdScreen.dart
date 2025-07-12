@@ -185,7 +185,6 @@ class _ThirdScreenState extends State<ThirdScreen> {
     );
   }
 
-  /// Build load more indicator untuk pagination
   Widget _buildLoadMoreIndicator() {
     return Container(
       padding: EdgeInsets.all(16),
