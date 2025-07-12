@@ -20,6 +20,7 @@ class CustomResultDialog extends StatelessWidget {
     final String resultText =
         isPalindromeResult ? 'isPalindrome!' : 'Not Palindrome!';
 
+    // AlertDialog untuk menampilkan hasil
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -41,7 +42,6 @@ class CustomResultDialog extends StatelessWidget {
           ),
           const SizedBox(height: 10),
 
-          // Menampilkan pesan hasil palindrom
           const Text(
             'Hasil Palindrom :',
             style: TextStyle(

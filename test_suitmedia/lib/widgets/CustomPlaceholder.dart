@@ -28,7 +28,7 @@ class CustomPlacholder extends StatelessWidget {
       decoration: BoxDecoration(
         color: color,
         shape: shape,
-        borderRadius: shape == BoxShape.rectangle ? BorderRadius.circular(12) : null, // Adjust radius for rectangle
+        borderRadius: shape == BoxShape.rectangle ? BorderRadius.circular(12) : null, 
         border: Border.all(
           color: borderColor,
           width: borderwidth,

@@ -40,10 +40,10 @@ class _FirstScreenState extends State<FirstScreen> {
         children: [
           Container(
             decoration: const BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/background.png'),
-                    fit: BoxFit.cover,
-                ),
+              image: DecorationImage(
+                image: AssetImage('assets/background.png'),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           // isi konten utama
@@ -73,37 +73,48 @@ class _FirstScreenState extends State<FirstScreen> {
                   // mengirim input nama ke provider
                   TextField(
                     controller: _namaController,
-                    decoration: const InputDecoration(hintText: 'Masukan Nama'),
+                    decoration: const InputDecoration(
+                      hintText: 'Masukan Nama',
+                    ),
                     onChanged: firstScreenProvider.setNama,
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
 
                   // mengirim input kalimat ke provider
                   TextField(
                     controller: _kalimatController,
-                    decoration:
-                        const InputDecoration(hintText: 'Cek Palindrome'),
+                    decoration: const InputDecoration(
+                      hintText: 'Cek Palindrome',
+                    ),
                     onChanged: firstScreenProvider.setKalimat,
                   ),
-                  const SizedBox(
-                    height: 50,
-                  ),
+                  const SizedBox(height: 50),
 
                   CustomButton(
                     text: 'CHECK',
                     onPressed: () {
-                      final message = firstScreenProvider.getPalindromeCheckMessage();
-                      final isPalindromeResult = firstScreenProvider.isPalindrome(firstScreenProvider.kalimat); 
-                      final namaInput = firstScreenProvider.nama;
+                      if (firstScreenProvider.kalimat.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Masukkan kalimat untuk dicek')),
+                        );
+                        return;
+                      }
+
+                      final isPalindromeResult =
+                          firstScreenProvider.isPalindrome(
+                        firstScreenProvider.kalimat,
+                      );
+
                       showDialog(
                         context: context,
                         builder: (BuildContext dialogContext) {
                           return CustomResultDialog(
-                           nama: namaInput,
-                           message: message,
-                           isPalindromeResult: isPalindromeResult,
+                            nama: firstScreenProvider.nama,
+                            message: isPalindromeResult
+                                ? 'isPalindrome'
+                                : 'not palindrome',
+                            isPalindromeResult: isPalindromeResult,
                           );
                         },
                       );
@@ -118,7 +129,9 @@ class _FirstScreenState extends State<FirstScreen> {
                   CustomButton(
                     text: 'NEXT',
                     onPressed: () {
-                      context.read<FirstScreenProvider>().setNama(_namaController.text);
+                      context
+                          .read<FirstScreenProvider>()
+                          .setNama(_namaController.text);
                       Navigator.pushNamed(context, '/second');
                     },
                     backgroundColor: const Color(0xFF2B637B),

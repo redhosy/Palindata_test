@@ -13,7 +13,6 @@ class UserProvider extends ChangeNotifier {
   String _selectedUserName = 'Selected User Name';
   User? _selectedUser;
 
-  // Getters
   List<User> get users => _users;
   bool get isLoading => _isLoading;
   bool get isRefreshing => _isRefreshing;
@@ -24,7 +23,7 @@ class UserProvider extends ChangeNotifier {
   String get selectedUserName => _selectedUserName;
   User? get selectedUser => _selectedUser;
 
-  // Load initial users
+  // Inisialisasi pengguna
   Future<void> loadUsers({bool isRefresh = false}) async {
     if (isRefresh) {
       _isRefreshing = true;
@@ -49,7 +48,6 @@ class UserProvider extends ChangeNotifier {
       _hasMore = _currentPage < userResponse.totalPages;
       _error = null;
 
-      // Debug info
       print(
           'Loaded ${userResponse.data.length} users, page $_currentPage/${userResponse.totalPages}');
     } catch (e) {
@@ -62,7 +60,7 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  // Load more users (pagination)
+  // Load lebih banyak pengguna
   Future<void> loadMoreUsers() async {
     if (_hasMore && !_isLoadingMore && !_isLoading && !_isRefreshing) {
       _isLoadingMore = true;
@@ -79,7 +77,7 @@ class UserProvider extends ChangeNotifier {
             'Loaded more ${userResponse.data.length} users, page $_currentPage/${userResponse.totalPages}');
       } catch (e) {
         _error = 'Failed to load more users: ${e.toString()}';
-        _currentPage--; // Rollback page increment
+        _currentPage--; 
         print('Error loading more users: $e');
       } finally {
         _isLoadingMore = false;
@@ -88,12 +86,12 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  // Refresh users
+  // load ulang pengguna
   Future<void> refreshUsers() async {
     await loadUsers(isRefresh: true);
   }
 
-  // Select user
+  // pilih pengguna
   void selectUser(User user) {
     _selectedUser = user;
     _selectedUserName = user.fullName;
@@ -101,20 +99,20 @@ class UserProvider extends ChangeNotifier {
     print('Selected user: ${user.fullName}');
   }
 
-  // Clear error
+
   void clearError() {
     _error = null;
     notifyListeners();
   }
 
-  // Reset selected user
+  // reset pengguna yang dipilih
   void clearSelection() {
     _selectedUser = null;
     _selectedUserName = 'Selected User Name';
     notifyListeners();
   }
 
-  // Clear all data (useful when navigating away)
+  // hapus data ketika pindah halaman
   void clearData() {
     _users.clear();
     _currentPage = 1;

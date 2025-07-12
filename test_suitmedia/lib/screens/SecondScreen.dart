@@ -96,6 +96,7 @@ class _SecondScreenState extends State<SecondScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
+                  // button untuk memilih pengguna
                   Padding(
                     padding: const EdgeInsets.only(bottom: 40),
                     child: CustomButton(

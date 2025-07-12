@@ -19,7 +19,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     
-    // Load users when screen opens
+    // Load pengguna saat inisialisasi
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _userProvider = Provider.of<UserProvider>(context, listen: false);
       if (_userProvider.users.isEmpty) {
@@ -34,14 +34,14 @@ class _ThirdScreenState extends State<ThirdScreen> {
     super.dispose();
   }
 
-  /// Listener untuk detect scroll sampai bottom untuk load more
+  /// Listener untuk detect scroll sampai bottom untuk load lengkap
   void _scrollListener() {
     if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
       _userProvider.loadMoreUsers();
     }
   }
 
-  /// Show error message via SnackBar
+  /// menampilkan pesan error
   void _showError(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -167,7 +167,6 @@ class _ThirdScreenState extends State<ThirdScreen> {
           ),
         ),
         onTap: () {
-          // Select user dan kembali ke Second Screen
           _userProvider.selectUser(user);
           Navigator.pop(context);
         },
@@ -175,7 +174,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
     );
   }
 
-  /// Build loading indicator widget
+  /// peroses loading indikator
   Widget _buildLoadingIndicator() {
     return Container(
       padding: EdgeInsets.all(16),
@@ -227,19 +226,18 @@ class _ThirdScreenState extends State<ThirdScreen> {
         builder: (context, userProvider, child) {
           _userProvider = userProvider;
 
-          // Show error if exists
           if (userProvider.error != null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               _showError(userProvider.error!);
             });
           }
 
-          // Show loading for initial load
+          // Jika sedang loading dan tidak ada pengguna
           if (userProvider.isLoading && userProvider.users.isEmpty) {
             return _buildLoadingIndicator();
           }
 
-          // Show empty state
+          // Jika tidak ada pengguna dan tidak dalam proses loading
           if (userProvider.users.isEmpty && !userProvider.isLoading) {
             return RefreshIndicator(
               onRefresh: userProvider.refreshUsers,
@@ -248,7 +246,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
             );
           }
 
-          // Show user list
+          // menampilkan daftar pengguna
           return RefreshIndicator(
             onRefresh: userProvider.refreshUsers,
             color: Color(0xFF2B637B),

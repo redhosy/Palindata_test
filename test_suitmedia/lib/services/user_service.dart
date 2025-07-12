@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:test_suitmedia/models/user_models.dart';
 
+/// Service untuk mengambil data pengguna dari API
 class UserService {
   static const String baseUrl = 'https://reqres.in/api';
 
